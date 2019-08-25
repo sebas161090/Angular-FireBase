@@ -1,0 +1,38 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Formulario Cliente</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body" [formGroup]="form">
+    <div class="row">
+        <div class="col-md-12 form-group">
+        
+                <label>Nombre</label>
+                <input type="text" class="form-control" placeholder="Nombre" formControlName="name">
+         
+        </div>
+        <div class="col-md-12 form-group">
+      
+                <label>Apellidos</label>
+                <input type="text" class="form-control" placeholder="Apellidos" formControlName="lastName">
+        
+        </div>
+        <div class="col-md-12 form-group">
+         
+                <label>Edad</label>
+                <input type="text" class="form-control" placeholder="Edad" formControlName="years">
+        
+        </div>
+        <div class="col-md-12 form-group">
+         
+                <label>Fecha de nacimiento</label>
+                <input type="text" class="form-control" placeholder="Fecha de nacimiento" placement="top" bsDatepicker [maxDate]="maxDate" formControlName="birthdate" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
+   
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="bsModalRef.hide()">Cerrar</button>
+    <button type="button" class="btn btn-primary" (click)="onClickSave()">Guardar</button>
+</div>
