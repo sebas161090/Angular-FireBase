@@ -14,6 +14,8 @@ import { AppClientListComponent } from './app-client/app-client-list/app-client-
 import { AppClientNewComponent } from './app-client/app-client-new/app-client-new.component';
 import { ClientService } from './app-client/services/client.service';
 import { SharedModule } from './shared/shared.module';
+import { AppClientEditComponent } from './app-client/app-client-edit/app-client-edit.component';
+import { AppClientProjectionComponent } from './app-client/app-client-projection/app-client-projection.component';
 
 @NgModule({
    declarations: [
@@ -21,6 +23,8 @@ import { SharedModule } from './shared/shared.module';
       AppClientComponent,
       AppClientListComponent,
       AppClientNewComponent,
+      AppClientEditComponent,
+      AppClientProjectionComponent,
    ],
    imports: [
       AppRoutingModule,
@@ -37,6 +41,6 @@ import { SharedModule } from './shared/shared.module';
    bootstrap: [
       AppComponent
    ],
-   entryComponents: [AppClientNewComponent]
+   entryComponents: [AppClientNewComponent, AppClientEditComponent]
 })
 export class AppModule { }

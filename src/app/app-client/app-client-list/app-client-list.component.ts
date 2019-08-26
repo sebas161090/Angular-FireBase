@@ -3,87 +3,97 @@ import { BsModalService } from 'ngx-bootstrap';
 import { AppClientNewComponent } from '../app-client-new/app-client-new.component';
 import * as moment from 'moment';
 import { Client } from '../Interfaces/client';
-import { environment } from 'src/environments/environment';
 import { ClientService } from '../services/client.service';
+import { AppClientEditComponent } from '../app-client-edit/app-client-edit.component';
 
 @Component({
   selector: 'app-client-list',
   templateUrl: './app-client-list.component.html'
 })
 export class AppClientListComponent implements OnInit {
-  clientsList: Client[] = [];
+  listClients: Client[] = [];
   @Input() hasProjection = false;
-  @Output() data: EventEmitter<any> = new EventEmitter();
-  @Output() eventEdit: EventEmitter<any> = new EventEmitter();
   constructor(
       private clientsService: ClientService,
       private bsModalRef: BsModalService,
-      //private sweetalertService: SweetalertService
   ) {}
 
   ngOnInit() {
-      this.showClients();
-      const container: HTMLElement = document.querySelector(
-          '.container-table'
-      );
-      //const ps = new PerfectScrollbar(container);
+      this.searchClients();
   }
 
-  // onClickDelete(item: any) {
-  //     this.sweetalertService
-  //         .show({
-  //             title: environment.messages.title.warningDelete,
-  //             text: environment.messages.text.warningDelete,
-  //             icon: environment.messages.type.warning,
-  //             buttons: true,
-  //             dangerMode: true
-  //         })
-  //         .then(willDelete => {
-  //             if (willDelete) {
-  //                 this.clientsService.delete(item.id).then(() => {
-  //                     this.sweetalertService.show(
-  //                         environment.messages.text.successDelete,
-  //                         {
-  //                             icon: environment.messages.type.success
-  //                         }
-  //                     );
-  //                 });
-  //             }
-  //         });
-  // }
+  onClickDelete(item: any) {
+    this.clientsService.delete(item.id).then(() => {
+    });
+  }
 
   onClickEdit(client: any) {
-      this.eventEdit.emit(client);
+    const initialState: any = {};
+      if (client) {
+          initialState.client = client;
+      }
+      this.bsModalRef.show(AppClientEditComponent, {
+          class: 'modal-dialog-centered',
+          initialState
+      });
   }
 
   getRenderDate(date: any) {
       return moment(date, 'DD/MM/YYYY').format('DD/MM/YYYY');
   }
 
-  getDeathDate(date: any) {
-      // Los años de mortalidad para una persona en el peru es de 73 años actualmente
-      const yaerBirthdate = moment(date, 'DD/MM/YYYY').year();
-      const yearCurrent = moment().year();
-      const diffYears = 73 - (yaerBirthdate - yearCurrent);
+  getProbablyDeathDate(date: any) {
+      const birthdate = moment(date, 'DD/MM/YYYY').year();
+      const yearNow = moment().year();
+      const yearsDeath = 75 - (birthdate - yearNow);
       return moment(date, 'DD/MM/YYYY')
-          .add(diffYears, 'years')
+          .add(yearsDeath, 'years')
           .format('DD/MM/YYYY');
   }
 
-  onClickModal() {
-    console.log('Modal Call');
+  openForm() {
     const initialState: any = {};
-
     this.bsModalRef.show(AppClientNewComponent, {
         class: 'modal-dialog-centered',
         initialState
     });
   }
 
-  private showClients() {
+  AverageCalculate() {
+    if (this.listClients.length) {
+        const total = this.getNumberClients();
+        return total / this.listClients.length;
+    }
+    return 0;
+  }
+
+StandardDeviationCalculate() {
+    if (this.listClients.length > 0) {
+        const numberClients = this.getNumberClients();
+        const media = numberClients / this.listClients.length;
+        let suma = 0;
+        for (const item of this.listClients) {
+          suma +=
+                (Number(item.years) - media) *
+                (Number(item.years) - media);
+        }
+        const vari = suma / this.listClients.length;
+        return Math.sqrt(vari);
+    }
+    return 0;
+}
+
+  private searchClients() {
       this.clientsService.all().subscribe((res: Client[]) => {
-          this.clientsList = res;
-          this.data.emit(res);
+          this.listClients = res;
       });
+  }
+
+  private getNumberClients() {
+    let suma = 0;
+    for (const item of this.listClients) {
+        suma += Number(item.years);
+    }
+    return suma;
   }
 }

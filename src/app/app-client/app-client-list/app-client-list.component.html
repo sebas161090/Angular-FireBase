@@ -1,44 +1,65 @@
 <div class="container">
-    <button type="button" class="btn btn-sm btn-primary" (click)="onClickModal()">
-        <i class="fas fa-user-plus  fa-sm text-white-50"></i>
+    <div *ngIf="!hasProjection"><h1>Listado de Clientes</h1></div>
+    <div *ngIf="hasProjection"><h1>Proyeccion y Analisis de Cliente</h1></div>
+    
+    <button *ngIf="!hasProjection" type="button" class="btn btn-secondary pull-right" (click)="openForm()">
+        <i class="fa fa-plus"></i>
         Nuevo registro
     </button>
-<div>
+
 
 <div class="container-table">
         <table class="table table-bordered table-striped">
             <thead class="sticky-top">
                 <tr>
-                    <th>#</th>
+                    <th>Nro.</th>
                     <th>Nombres</th>
                     <th>Apellidos</th>
                     <th>Edad</th>
                     <th>Fecha Nacimiento</th>
-                    <th *ngIf="hasProjection">Fecha Muerte(Probable)</th>
-                    <th *ngIf="!hasProjection">Acciones</th>
+                    <th *ngIf="hasProjection">Fecha Probable de Muerte</th>
+                    <th *ngIf="!hasProjection">Opciones</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of clientsList; let i = index">
-                    <th class="align-middle">{{ i + 1 }}</th>
-                    <td class="align-middle">{{ item.name }}</td>
-                    <td class="align-middle">{{ item.lastName }}</td>
-                    <td class="align-middle">{{ item.years }}</td>
-                    <td class="align-middle">{{ getRenderDate(item.birthdate) }}</td>
-                    <td class="align-middle" *ngIf="hasProjection">
-                        {{ getDeathDate(item.birthdate) }}
+                <tr *ngFor="let item of listClients; let i = index">
+                    <th>{{ i + 1 }}</th>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.lastName }}</td>
+                    <td>{{ item.years }}</td>
+                    <td>{{ getRenderDate(item.birthdate) }}</td>
+                    <td *ngIf="hasProjection">
+                        {{ getProbablyDeathDate(item.birthdate) }}
                     </td>
-                    <td class="align-middle" *ngIf="!hasProjection">
+                    <td *ngIf="!hasProjection">
                         <div class="btn-group btn-group-sm">
-                            <button type="button" class="btn btn-primary" (click)="onClickEdit(item)">
-                                <i class="fa fa-heart"></i>
+                            <button type="button" (click)="onClickEdit(item)">
+                                <i class="fa fa-edit"></i>
                             </button>
-                            <button type="button" class="btn btn-danger" (click)="onClickDelete(item)">
-                                <i class="fas fa-trash"></i>
+                            <button type="button" (click)="onClickDelete(item)">
+                                <i class="fa fa-trash"></i>
                             </button>
                         </div>
                     </td>
                 </tr>
             </tbody>
         </table>
+    </div>
+
+    <div>
+        <div>
+            <h4>
+                {{ AverageCalculate() | number:'0.2-2' }}
+            </h4>
+            <small>PROMEDIO EDAD</small>
+        </div>
+    </div>
+    <div>
+        <div>
+            <h4>{{ StandardDeviationCalculate() | number:'0.2-2' }}</h4>
+            <small>DESVIACION ESTÁNDAR</small>
+        </div>
+    </div>
+
+
     </div>

@@ -34,12 +34,12 @@ export class ClientService {
             });
     }
 
-    /* update(clientId: string, data: UpdateClientDto) {
+    update(clientId: string, data: Client) {
         return this.firestore
-            .collection('clients')
+            .collection('client')
             .doc(clientId)
             .set(data);
-    } */
+    }
  
     delete(clientId: string) {
         return this.firestore

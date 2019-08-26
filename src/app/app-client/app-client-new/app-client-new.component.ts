@@ -9,12 +9,11 @@ import * as moment from 'moment';
 
 @Component({
   selector: 'app-app-client-new',
-  templateUrl: './app-client-new.component.html',
-  styleUrls: ['./app-client-new.component.css']
+  templateUrl: './app-client-new.component.html'
 })
 export class AppClientNewComponent implements OnInit {
 
-  form: FormGroup;
+    form: FormGroup;
     client: Client;
     maxDate: any;
     constructor(
@@ -29,7 +28,7 @@ export class AppClientNewComponent implements OnInit {
     ngOnInit() {
         const values: any = this.client;
         if (values) {
-            values.birthdate = new Date(moment(this.client.fecha_nacimiento, 'DD/MM/YYYY').format());
+            values.birthdate = new Date(moment(this.client.birthdate, 'DD/MM/YYYY').format());
             this.form.patchValue({ ...values });
         }
     }
@@ -43,31 +42,16 @@ export class AppClientNewComponent implements OnInit {
                     this.form.reset();
                     this.bsModalRef.hide();
                 });
-            } /* else {
-                this.clientsService.update(this.client.id, values).then(() => {
-                    this.bsModalRef.hide();
-                    this.form.reset();
-                });
-            } */
+            }
         }
     }
 
     private createform() {
         this.form = this.fb.group({
-            name: [null, [Validators.required]],
-            lastName: [null, [Validators.required]],
-            years: [
-                null,
-                [
-                    Validators.required,
-                    Validators.min(1),
-                    Validators.max(122),
-                ]
-            ],
-            birthdate: [
-                new Date(),
-                [Validators.required]
-            ]
+            name: [null, null],
+            lastName: [null, null],
+            years: [null, null],
+            birthdate: [ new Date()]
         });
     }
 

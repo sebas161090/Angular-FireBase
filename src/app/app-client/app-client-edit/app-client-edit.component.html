@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h4 class="modal-title pull-left">Registrar Cliente</h4>
+    <h4 class="modal-title pull-left">Editar Cliente</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
         <span aria-hidden="true">&times;</span>
     </button>
@@ -19,10 +19,8 @@
                 <input type="text" class="form-control" formControlName="years">
         </div>
         <div class="col-md-12 form-group">
-         
                 <label>Fecha de nacimiento</label>
-                <input type="text" class="form-control"  placement="top" bsDatepicker [maxDate]="maxDate" formControlName="birthdate" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
-   
+                <input type="text" class="form-control" placement="top" bsDatepicker formControlName="birthdate" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
         </div>
     </div>
 </div>
