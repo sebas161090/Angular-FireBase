@@ -4,3 +4,41 @@
         Nuevo registro
     </button>
 <div>
+
+<div class="container-table">
+        <table class="table table-bordered table-striped">
+            <thead class="sticky-top">
+                <tr>
+                    <th>#</th>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Edad</th>
+                    <th>Fecha Nacimiento</th>
+                    <th *ngIf="hasProjection">Fecha Muerte(Probable)</th>
+                    <th *ngIf="!hasProjection">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of clientsList; let i = index">
+                    <th class="align-middle">{{ i + 1 }}</th>
+                    <td class="align-middle">{{ item.name }}</td>
+                    <td class="align-middle">{{ item.lastName }}</td>
+                    <td class="align-middle">{{ item.years }}</td>
+                    <td class="align-middle">{{ getRenderDate(item.birthdate) }}</td>
+                    <td class="align-middle" *ngIf="hasProjection">
+                        {{ getDeathDate(item.birthdate) }}
+                    </td>
+                    <td class="align-middle" *ngIf="!hasProjection">
+                        <div class="btn-group btn-group-sm">
+                            <button type="button" class="btn btn-primary" (click)="onClickEdit(item)">
+                                <i class="fa fa-heart"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger" (click)="onClickDelete(item)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>

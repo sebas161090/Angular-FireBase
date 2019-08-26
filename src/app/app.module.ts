@@ -13,6 +13,7 @@ import { AppRoutingModule } from './app.routing';
 import { AppClientListComponent } from './app-client/app-client-list/app-client-list.component';
 import { AppClientNewComponent } from './app-client/app-client-new/app-client-new.component';
 import { ClientService } from './app-client/services/client.service';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
    declarations: [
@@ -30,6 +31,7 @@ import { ClientService } from './app-client/services/client.service';
       AngularFirestoreModule,
       ModalModule.forRoot(),
       BsDatepickerModule.forRoot(),
+      SharedModule
    ],
    providers: [ClientService],
    bootstrap: [
